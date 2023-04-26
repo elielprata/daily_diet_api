@@ -1,8 +1,9 @@
 import { config } from 'dotenv'
+import { resolve } from 'node:path'
 import { z } from 'zod'
 
 if (process.env.NODE_ENV === 'test') {
-  config({ path: '../.env.test' })
+  config({ path: resolve('.env.test') })
 } else {
   config()
 }
