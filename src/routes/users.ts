@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { z } from 'zod'
+import { z, ZodError } from 'zod'
 import { knex } from '../database'
 import { randomUUID } from 'crypto'
 import bcrypt from 'bcrypt'
@@ -26,7 +26,9 @@ export async function users(app: FastifyInstance) {
 
       return reply.status(201).send()
     } catch (error) {
-      reply.status(400).send({})
+      if (error instanceof ZodError) {
+        return reply.status(403).send(error.issues)
+      }
     }
   })
 }
