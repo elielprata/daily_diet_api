@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest'
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import request from 'supertest'
 import { app } from '../app'
 import { execSync } from 'child_process'
@@ -25,6 +25,15 @@ describe('Users Routes', () => {
   })
 
   it('should be able to return error when data is invalid ', async () => {
-    await request(app.server).post('/users').send({ name: 'Test' }).expect(400)
+    const response = await request(app.server).post('/users').send({})
+
+    expect(response.body).toContainEqual({
+      code: 'invalid_type',
+      expected: 'string',
+      message: 'Required',
+      path: ['name'],
+      received: 'undefined',
+    })
+    expect(response.status).toBe(403)
   })
 })
