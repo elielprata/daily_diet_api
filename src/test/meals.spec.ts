@@ -156,8 +156,6 @@ describe('Users Routes', () => {
 
     const mealUpdated = await knex('meals').first()
 
-    console.log(mealUpdated, body.meals[0].id)
-
     expect(mealUpdated).toContain({
       name: 'MealTest Update',
       description: 'Meal description Updated',
