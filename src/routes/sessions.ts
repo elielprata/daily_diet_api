@@ -24,6 +24,16 @@ export async function sessions(app: FastifyInstance) {
       return reply.status(400).send({ error: 'email or password incorrect' })
     }
 
-    return reply.status(200).send({ user })
+    const token = app.jwt.sign(
+      {
+        name: user.name,
+      },
+      {
+        sub: user.id,
+        expiresIn: '1 day',
+      },
+    )
+
+    return reply.status(200).send({ token })
   })
 }
