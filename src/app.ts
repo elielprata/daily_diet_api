@@ -1,9 +1,11 @@
 import fastify from 'fastify'
 import jwt from '@fastify/jwt'
 
+import { env } from './env'
+
 import { users } from './routes/users'
 import { sessions } from './routes/sessions'
-import { env } from './env'
+import { meals } from './routes/meals'
 
 export const app = fastify()
 
@@ -13,4 +15,4 @@ app.register(jwt, {
 
 app.register(sessions)
 app.register(users, { prefix: '/users' })
-app.register(users, { prefix: '/meals' })
+app.register(meals, { prefix: '/meals' })
