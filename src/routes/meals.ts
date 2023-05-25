@@ -3,13 +3,17 @@ import { ZodError, z } from 'zod'
 import { knex } from '../database'
 
 export async function meals(app: FastifyInstance) {
+  app.addHook('preHandler', async (request) => {
+    await request.jwtVerify()
+  })
+
   app.post('/', async (request, reply) => {
     try {
       const mealsSchema = z.object({
         name: z.string(),
         description: z.string(),
         dateTime: z.string(),
-        isDiet: z.boolean(),
+        isDiet: z.coerce.boolean(),
       })
 
       const { name, description, dateTime, isDiet } = mealsSchema.parse(
@@ -21,7 +25,7 @@ export async function meals(app: FastifyInstance) {
         description,
         date: dateTime,
         is_diet: isDiet,
-        user_id: '564',
+        user_id: request.user.sub,
       })
 
       return reply.status(201).send()
@@ -29,6 +33,8 @@ export async function meals(app: FastifyInstance) {
       if (error instanceof ZodError) {
         return reply.status(403).send(error.issues)
       }
+
+      console.log(error)
     }
   })
 }
