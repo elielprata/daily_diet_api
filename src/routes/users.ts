@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify'
 import { z, ZodError } from 'zod'
 import { knex } from '../database'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import bcrypt from 'bcrypt'
 
 export async function users(app: FastifyInstance) {
