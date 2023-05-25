@@ -6,6 +6,7 @@ import { env } from './env'
 import { users } from './routes/users'
 import { sessions } from './routes/sessions'
 import { meals } from './routes/meals'
+import { summary } from './routes/summary'
 
 export const app = fastify()
 
@@ -16,3 +17,4 @@ app.register(jwt, {
 app.register(sessions)
 app.register(users, { prefix: '/users' })
 app.register(meals, { prefix: '/meals' })
+app.register(summary, { prefix: '/summary' })

@@ -12,7 +12,7 @@ export async function sessions(app: FastifyInstance) {
 
     const { email, password } = loginSchema.parse(request.body)
 
-    const user = await knex.first('*').from('users').where('email', email)
+    const user = await knex('users').where({ email }).first()
 
     if (!user) {
       return reply.status(400).send({ error: 'email or password incorrect' })
