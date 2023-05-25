@@ -34,7 +34,7 @@ describe('Users Routes', () => {
     expect(response.body).toEqual({ token: expect.any(String) })
   })
 
-  it.only('should be able return 400 when email or password is not right', async () => {
+  it('should be able return 400 when email or password is not right', async () => {
     await request(app.server)
       .post('/users')
       .send({ name: 'Test', email: 'test@test.com', password: 'test' })
